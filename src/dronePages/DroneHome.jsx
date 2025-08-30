@@ -11,7 +11,6 @@ import axios from "axios";
 import { useSocket } from '../dronecontext/DroneSocketContext.jsx';
 import { UserDataContext } from '../dronecontext/DroneUserContext.jsx';
 import { useNavigate } from 'react-router-dom';
-import { set } from 'mongoose';
 import { RideDataContext } from '../dronecontext/DroneRideContext.jsx';
 import DroneLoading from '../droneComponents/DroneLoading.jsx';
 import toast from "react-hot-toast";

@@ -13,7 +13,6 @@ import toast from "react-hot-toast";
 import FooterNavPilot from '../components/FooterNavPilot.jsx';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { set } from 'mongoose'
 
 const PilotHome = () => {
 

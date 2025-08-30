@@ -1,11 +1,8 @@
 import axios from 'axios';
 import React, { useContext, useState , useEffect } from 'react'
-import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { RideDataContext } from '../context/RideContext';
 import toast from 'react-hot-toast';
-import { set } from 'mongoose';
-import Loading from './Loading';
 
 const ConfirmRidePopupToPilot = ({setConfirmRidePopupPannel , setRidePopupPannel , ride , rideBy , setLoading , setMessage , loading , message}) => {
     const [otp , setOtp] = useState("");

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Link , useNavigate} from 'react-router-dom'
 import { PilotDataContext } from '../context/PilotContext';
 import axios from 'axios';
-import { set } from 'mongoose';
 import toast from 'react-hot-toast';
 
 const PilotLogin = () => {

@@ -11,7 +11,6 @@ import axios from "axios";
 import { useSocket } from '../context/SocketContext.jsx';
 import { UserDataContext } from '../context/UserContext.jsx';
 import { useNavigate } from 'react-router-dom';
-import { set } from 'mongoose';
 import { RideDataContext } from '../context/RideContext.jsx';
 import Loading from '../components/Loading.jsx';
 import toast from "react-hot-toast";

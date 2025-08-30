@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { RideDataContext } from '../dronecontext/DroneRideContext';
 import toast from 'react-hot-toast';
-import { set } from 'mongoose';
-import DroneLoading from './DroneLoading';
+
 
 const DroneConfirmRidePopupToPilot = ({setConfirmRidePopupPannel , setRidePopupPannel , ride , rideBy , setLoading , setMessage , loading , message}) => {
     const [otp , setOtp] = useState("");
