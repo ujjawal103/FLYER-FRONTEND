@@ -13,7 +13,6 @@ import toast from "react-hot-toast";
 import DroneFooterNavPilot from '../droneComponents/DroneFooterNavPilot.jsx';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { set } from 'mongoose'
 
 const DronePilotHome = () => {
 
