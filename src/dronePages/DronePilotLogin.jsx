@@ -3,6 +3,7 @@ import { Link , useNavigate} from 'react-router-dom'
 import { PilotDataContext } from '../dronecontext/DronePilotContext';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import DroneLoading from '../droneComponents/DroneLoading';
 
 const DronePilotLogin = () => {
 
@@ -13,10 +14,15 @@ const DronePilotLogin = () => {
   
     const {pilot, setPilot} = React.useContext(PilotDataContext);
     const navigate = useNavigate();
+
+    const [loading , setLoading] = useState(false);
+    const [message , setMessage] = useState("");
   
   
     const submitHandler = async (e) => {
   e.preventDefault();
+  setLoading(true);
+  setMessage("Logging In....");
 
   try {
     const pilotData = {
@@ -32,7 +38,8 @@ const DronePilotLogin = () => {
     if (response.status === 200) {
       const data = response.data;
       setPilot(data.pilot);
-
+      setLoading(false);
+      setMessage("");
       setEmail("");
       setPassword("");
       setError("");
@@ -41,6 +48,8 @@ const DronePilotLogin = () => {
       toast.success("Login successful!");
     }
   } catch (error) {
+      setLoading(false);
+      setMessage("");
     if (error.response) {
       if (error.response.status === 401) {
         setError("Invalid email or password");
@@ -61,6 +70,8 @@ const DronePilotLogin = () => {
 
 
   return (
+  <>
+  {loading && <DroneLoading message={message}/>}
     <div className=' h-screen w-full p-7 flex flex-col items-center justify-between'>
        <div className='w-full md:w-1/3'>
           <form className='w-full' onSubmit={(e) => submitHandler(e)}>
@@ -103,6 +114,7 @@ const DronePilotLogin = () => {
         </Link>
        </div>
     </div>
+  </>
   )
 }
 

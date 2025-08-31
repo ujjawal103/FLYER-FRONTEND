@@ -3,6 +3,7 @@ import { Link , useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { UserDataContext } from '../context/UserContext'
 import toast from 'react-hot-toast'
+import Loading from '../components/Loading'
 
 const UserSignup = () => {
     const [ firstName , setFirstName] = useState("");
@@ -15,8 +16,13 @@ const UserSignup = () => {
     const navigate = useNavigate();
     const {user , setUser} = React.useContext(UserDataContext);
 
+    const [loading , setLoading] = useState(false);
+    const [message , setMessage] = useState("");
+
    const submitHandler = async (e) => {
   e.preventDefault();
+  setLoading(true);
+  setMessage("Creating User...");
 
   try {
     const newUser = {
@@ -36,7 +42,8 @@ const UserSignup = () => {
     if (response.status === 201) {
       const data = response.data;
       setUser(data.user);
-
+      setLoading(false);
+      setMessage("");
       setEmail("");
       setPassword("");
       setFirstName("");
@@ -46,6 +53,8 @@ const UserSignup = () => {
       toast.success("Registration successful!");
     }
   } catch (error) {
+     setLoading(false);
+     setMessage("");
     if (error.response) {
       if (error.response.status === 409) {
         setError("Email already exists");
@@ -55,6 +64,7 @@ const UserSignup = () => {
     } else {
       setError("Network error. Please try again.");
     }
+    
   }
 
   
@@ -63,6 +73,8 @@ const UserSignup = () => {
     
 
   return (
+  <>
+   {loading && <Loading message={message}/>}
    <div className=' h-screen w-full p-7 flex flex-col items-center justify-between'>
        <div className='w-full md:w-1/3'>
           <form className='w-full' onSubmit={(e) => submitHandler(e)}>
@@ -126,6 +138,7 @@ const UserSignup = () => {
         </Link>
        </div>
     </div>
+  </>
   )
 }
 

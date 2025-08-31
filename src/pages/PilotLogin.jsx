@@ -3,6 +3,7 @@ import { Link , useNavigate} from 'react-router-dom'
 import { PilotDataContext } from '../context/PilotContext';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import Loading from '../components/Loading';
 
 const PilotLogin = () => {
 
@@ -13,10 +14,15 @@ const PilotLogin = () => {
   
     const {pilot, setPilot} = React.useContext(PilotDataContext);
     const navigate = useNavigate();
+
+    const [loading , setLoading] = useState(false);
+    const [message , setMessage] = useState("");
   
   
     const submitHandler = async (e) => {
   e.preventDefault();
+  setLoading(true);
+  setMessage("Logging In....")
 
   try {
     const pilotData = {
@@ -32,7 +38,8 @@ const PilotLogin = () => {
     if (response.status === 200) {
       const data = response.data;
       setPilot(data.pilot);
-
+      setLoading(false);
+      setMessage("");
       setEmail("");
       setPassword("");
       setError("");
@@ -41,6 +48,8 @@ const PilotLogin = () => {
       toast.success("Login successful!");
     }
   } catch (error) {
+    setLoading(false);
+    setMessage("");
     if (error.response) {
       if (error.response.status === 401) {
         setError("Invalid email or password");
@@ -61,6 +70,8 @@ const PilotLogin = () => {
 
 
   return (
+    <>
+    {loading && <Loading message={message}/>}
     <div className=' h-screen w-full p-7 flex flex-col items-center justify-between'>
        <div className='w-full md:w-1/3'>
           <form className='w-full' onSubmit={(e) => submitHandler(e)}>
@@ -103,6 +114,7 @@ const PilotLogin = () => {
         </Link>
        </div>
     </div>
+    </>
   )
 }
 

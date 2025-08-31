@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { UserDataContext } from '../dronecontext/DroneUserContext';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import DroneLoading from '../droneComponents/DroneLoading';
 
 const DroneUserLogin = () => {
   const [ email , setEmail] = useState("");
@@ -13,9 +14,14 @@ const DroneUserLogin = () => {
   const [error , setError] = useState("");
   const navigate = useNavigate();
 
+   const [loading , setLoading] = useState(false);
+   const [message , setMessage] = useState("");
+
 
  const submitHandler = async (e) => {
   e.preventDefault();
+  setLoading(true);
+  setMessage("Logging In....");
 
   try {
     const userData = {
@@ -32,6 +38,8 @@ const DroneUserLogin = () => {
     if (response.status === 200) {
       const data = response.data;
       setUser(data.user);
+      setLoading(false);
+      setMessage("");
       setError("");
       localStorage.setItem("token", data.token);
       navigate("/drone-home");
@@ -43,7 +51,8 @@ const DroneUserLogin = () => {
     }
   } catch (error) {
     console.error("Login failed:", error);
-
+      setLoading(false);
+      setMessage("");
     // Custom error message
     if (error.response && error.response.status === 401) {
       setError("Invalid email or password");
@@ -58,6 +67,8 @@ const DroneUserLogin = () => {
 
 
   return (
+   <>
+   {loading && <DroneLoading message={message}/>}
     <div className=' h-screen w-full p-7 flex flex-col items-center justify-between'>
        <div className='w-full md:w-1/3'>
           <form className='w-full' onSubmit={(e) => submitHandler(e)}>
@@ -100,6 +111,7 @@ const DroneUserLogin = () => {
         </Link>
        </div>
     </div>
+   </>
   )
 }
 

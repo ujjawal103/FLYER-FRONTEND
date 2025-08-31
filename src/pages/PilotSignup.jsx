@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { PilotDataContext } from '../context/PilotContext';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import Loading from '../components/Loading';
 
 const PilotSignup = () => {
       const [ firstName , setFirstName] = useState("");
@@ -20,10 +21,15 @@ const PilotSignup = () => {
 
       const {pilot, setPilot} = React.useContext(PilotDataContext);
       const navigate = useNavigate();
+
+      const [loading , setLoading] = useState(false);
+      const [message , setMessage] = useState("");
     
     
     const submitHandler = async (e) => {
   e.preventDefault();
+  setLoading(true);
+  setMessage("Creating Pilot...")
 
   try {
     const pilotData = {
@@ -58,10 +64,14 @@ const PilotSignup = () => {
       setCapacity("");
       setAerialVehicleType("");
       localStorage.setItem("token", data.token);
+      setLoading(false);
+      setMessage("");
       navigate("/pilot-home");
       toast.success("Registration successful!");
     }
   } catch (error) {
+    setLoading(false);
+    setMessage("");
     if (error.response) {
       if (error.response.status === 409) {
         setError("Pilot with this email already exists");
@@ -78,6 +88,8 @@ const PilotSignup = () => {
 
       
   return (
+  <>
+  {loading && <Loading message={message}/>}
     <div className=' h-screen w-full p-7 flex flex-col items-center justify-between'>
        <div className='w-full md:w-1/3'>
           <form className='w-full' onSubmit={(e) => submitHandler(e)}>
@@ -195,6 +207,7 @@ const PilotSignup = () => {
         </Link>
        </div> */}
     </div>
+  </>
   )
 }
 

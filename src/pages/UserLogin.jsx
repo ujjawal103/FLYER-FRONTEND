@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { UserDataContext } from '../context/UserContext';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import Loading from '../components/Loading';
 
 const UserLogin = () => {
   const [ email , setEmail] = useState("");
@@ -13,10 +14,14 @@ const UserLogin = () => {
   const [error , setError] = useState("");
   const navigate = useNavigate();
 
+  const [loading , setLoading] = useState(false);
+  const [message , setMessage] = useState("");
 
  const submitHandler = async (e) => {
   e.preventDefault();
 
+  setLoading(true);
+  setMessage("Logging in...");
   try {
     const userData = {
       email,
@@ -34,6 +39,8 @@ const UserLogin = () => {
       setUser(data.user);
       setError("");
       localStorage.setItem("token", data.token);
+      setLoading(false);
+      setMessage("");
       navigate("/home");
 
       setEmail("");
@@ -43,7 +50,8 @@ const UserLogin = () => {
     }
   } catch (error) {
     console.error("Login failed:", error);
-
+    setLoading(false);
+    setMessage("");
     // Custom error message
     if (error.response && error.response.status === 401) {
       setError("Invalid email or password");
@@ -58,6 +66,8 @@ const UserLogin = () => {
 
 
   return (
+   <>
+   {loading && <Loading message={message}/>}
     <div className=' h-screen w-full p-7 flex flex-col items-center justify-between'>
        <div className='w-full md:w-1/3'>
           <form className='w-full' onSubmit={(e) => submitHandler(e)}>
@@ -100,6 +110,7 @@ const UserLogin = () => {
         </Link>
        </div>
     </div>
+   </>
   )
 }
 

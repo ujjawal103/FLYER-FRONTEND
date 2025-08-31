@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { PilotDataContext } from '../dronecontext/DronePilotContext';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import DroneLoading from '../droneComponents/DroneLoading';
 
 const DronePilotSignup = () => {
       const [ firstName , setFirstName] = useState("");
@@ -20,10 +21,15 @@ const DronePilotSignup = () => {
 
       const {pilot, setPilot} = React.useContext(PilotDataContext);
       const navigate = useNavigate();
+
+      const [loading , setLoading] = useState(false);
+      const [message , setMessage] = useState("");
     
     
     const submitHandler = async (e) => {
   e.preventDefault();
+  setLoading(true);
+  setMessage("Creating Drone....");
 
   try {
     const pilotData = {
@@ -58,10 +64,14 @@ const DronePilotSignup = () => {
       setCapacity("");
       setAerialVehicleType("");
       localStorage.setItem("token", data.token);
+      setLoading(false);
+      setMessage("");
       navigate("/drone-pilot-home");
       toast.success("Registration successful!");
     }
   } catch (error) {
+      setLoading(false);
+      setMessage("");
     if (error.response) {
       if (error.response.status === 409) {
         setError("Pilot with this email already exists");
@@ -78,6 +88,8 @@ const DronePilotSignup = () => {
 
       
   return (
+   <>
+   {loading && <DroneLoading message={message}/>}
     <div className=' h-screen w-full p-7 flex flex-col items-center justify-between'>
        <div className='w-full md:w-1/3'>
           <form className='w-full' onSubmit={(e) => submitHandler(e)}>
@@ -193,6 +205,7 @@ const DronePilotSignup = () => {
         </Link>
        </div> */}
     </div>
+   </>
   )
 }
 

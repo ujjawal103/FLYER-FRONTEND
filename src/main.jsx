@@ -13,7 +13,6 @@ import DroneRideContext from './dronecontext/DroneRideContext.jsx'
 import DroneSocketProvider from './dronecontext/DroneSocketContext.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
     <DroneSocketProvider>
       <DroneUserContext>
        <DronePilotContext>
@@ -33,5 +32,4 @@ createRoot(document.getElementById('root')).render(
       </DronePilotContext>
      </DroneUserContext>
     </DroneSocketProvider>
-  </StrictMode>,
 )
