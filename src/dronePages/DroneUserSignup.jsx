@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react'
 import { Link , useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { UserDataContext } from '../dronecontext/DroneUserContext'
-import { set } from 'mongoose'
 import toast from 'react-hot-toast'
 
 const DroneUserSignup = () => {
